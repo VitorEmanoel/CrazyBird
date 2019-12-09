@@ -35,11 +35,43 @@ class EventNotify:
                 event_func(event_object)
 
 
-class Sprite:
+class RenderGroup:
+
+    renders = []
+
+    def __init__(self):
+        self.renders = []
+
+    def add_render(self, render):
+        self.renders.append(render)
+
+    def get_renders(self):
+        return self.renders
+
+    def set_renders(self, renders):
+        self.renders = renders
+
+    def render(self):
+        for render in self.renders:
+            if isinstance(render, Sprite):
+                render.render()
+
+
+class Renderable:
+
+    def __init__(self, source):
+        self.source = source
+
+    def render(self, screen, x, y):
+        screen.blit(self.source, [x, y])
+
+
+class Sprite(Renderable):
     x = 0
     y = 0
 
     def __init__(self, sprite_image):
+        super().__init__(sprite_image)
         self.size = sprite_image.get_rect().size
         self.sprite_image = sprite_image.convert()
 
@@ -52,4 +84,4 @@ class Sprite:
         self.y += y
 
     def render(self, screen):
-        screen.blit(self.sprite_image, [self.x, self.y])
+        super().render(screen, self.x, self.y)

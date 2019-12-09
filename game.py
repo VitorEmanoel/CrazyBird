@@ -22,6 +22,7 @@ class Game:
 
     def on_key(self, key, func):
         self.keymap_notify.add_handler(key, func)
+        pygame.K_SPACE
 
     def on_render(self, render):
         self.render_func = render
@@ -39,8 +40,9 @@ class Game:
                     self.running = False
                 elif event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
                     self.keymap_notify.notify(event.key, event)
-            self.render_func(self)
             self.clock.tick(self.clock_rate)
+            self.render_func(self)
+            pygame.display.update()
 
     def get_screen(self):
         return self.engine.get_screen()

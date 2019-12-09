@@ -1,8 +1,10 @@
 from game import Game
-from engine.pygame_engine import Sprite
+from engine.pygame_engine import Sprite, RenderGroup
 import pygame
 
 game = Game("CrazyBird", 30, 1280, 512)
+
+birds_group = RenderGroup()
 
 background_image = 0
 
@@ -10,13 +12,14 @@ background_image = 0
 def game_posload(engine):
     pygame.display.set_icon(pygame.image.load('flappy.ico'))
     bird = Sprite(pygame.image.load('./assets/sprites/yellowbird-midflap.png'))
+    birds_group.add_render(bird)
     engine.set_data('bird', bird)
     print(bird.size)
 
 
 def on_space(event):
     bird = game.get_data('bird')
-    bird.move(1, 20)
+    bird.move(1, -100)
 
 
 def game_render(engine):
